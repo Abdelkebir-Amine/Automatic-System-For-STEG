@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/png" href="images/icons/home.ico"/>
+  <title> Ajouter compteur </title>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+<!----------------------------- Connexion au Firebase  ----------------------------------->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+</head>
+
+<body id="page-top">
+
+<!------------------------------------ Partie Tableau de bord ---------------------------------------->
+
+<nav  style="background-color: rgba(0,97,166,1); height: 45px; opacity: 0.3; width: 1117px; margin-left: 225px;">
+</nav> 
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav" style="background-color: rgba(0,97,166,1); height: 750px; margin-top: -45px;">
+        <h5 style="margin-left: 7.5px; margin-top: 15px; margin-left: 21px;color: #ffffff;"> Administration STEG </h5> 
+        <a href="dashboard.html">
+            <img src="images/STEG.png" width="140px" height="140px" style="margin-top: 10px; margin-left: 42px;">
+        </a> 
+    
+      <li class="nav-item" style="margin-top: 35px;">
+        <a class="nav-link" href="dashboard.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Liste des compteurs</span>
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="consulter_consommation.html" >	
+          <span> Consulter les consommations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="consulter_reclamation.html">
+          <span> Consulter les réclamations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="gerer_releveurs.html">
+          <span> Gérer les releveurs </span> 
+        </a> 
+      </li> 
+    </ul>
+	
+<!---------------------------------- Partie Ajouter un compteur -------------------------------------->
+
+    <div id="content-wrapper">
+        
+        <br>
+        <center><h1> Ajouter un compteur </h1></center>
+        <br> <br>
+        
+          <form class="form-horizontal">
+            <fieldset>
+             
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Réf compteur : </h6>  
+                <div class="col-md-4">
+                    <input id="refCompteur" name="ref" value="" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                </div>
+                </div>
+                
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Type compteur : </h6>  
+                    <div class="col-md-4">
+                    <input id="typeCompteur" name="typeCompteur" value="" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Emplacement : </h6>  
+                    <div class="col-md-4">
+                    <input id="emplacement" name="emplacement" value="" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Propriétaire </h6>  
+
+                    <label class="col-md-4 control-label" for="product_name" style="margin-left: 15px; margin-top: 10px;"> Nom & Prénom : </label>  
+                    <div class="col-md-4">
+                    <input id="nameClient" name="nameClient" value="" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 138px;">   
+                    </div>
+
+                    <label class="col-md-4 control-label" for="product_name" style="margin-left: 35px;margin-top: 15px;"> Email : </label>  
+                    <div class="col-md-4">
+                    <input id="emailClient" name="emailClient" value="" class="form-control input-md" type="text" style="margin-top: -35px;margin-left: 138px;">   
+                    </div>
+
+                    <label class="col-md-4 control-label" for="product_name" style="margin-left: 40px; margin-top: 15px;"> Tel : </label>  
+                    <div class="col-md-4">
+                    <input id="telClient" name="telClient" value="" class="form-control input-md" type="text" style="margin-top: -35px;margin-left: 138px;">   
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-left: 300px;">
+                  <label class="col-md-4 control-label" for="singlebutton"></label>
+                  <div class="col-md-4">
+                      <button onclick="ajouterCompteur();" class="btn btn-primary" type="button">Ajouter</button>
+                  </div>
+                </div>
+            </fieldset>
+          </form>
+        <br> <br>
+
+        <!-- Footer -->
+        <footer class="sticky-footer" style="height: 45px; ">
+            <div class="container my-auto">
+              <div class="copyright text-center my-auto" >
+                <span style="font-size: 18px; color: black;"> Société de l'Electricité et du Gaz </span>
+              </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!---------------------------------- Partie JavaScript -------------------------------------->
+
+<script>
+
+// Fonction controle des saisies :
+
+    validerChamps = () => {
+      var refCompteur = document.getElementById('refCompteur').value;
+      var typeCompteur = document.getElementById('typeCompteur').value;
+      var emplacement = document.getElementById('emplacement').value;
+      var nameClient = document.getElementById('nameClient').value;
+      var emailClient = document.getElementById('emailClient').value;
+      var telClient = document.getElementById('telClient').value;
+
+        if (refCompteur == "") {
+          alert(' Le champ Réf compteur obligatoire');
+          return false 
+        }else if (refCompteur.length < 12 || refCompteur.length > 12  ){
+          alert(' la référence de compteur doit comporte exactement 12 chiffres');
+          return false           
+        }
+        else if (typeCompteur == ""){
+          alert('Le champ Type compteur obligatoire');
+          return false           
+        }else if (emplacement == ""){
+          alert('Le champ Emplacement obligatoire');
+          return false           
+        }else if (nameClient == ""){
+          alert('Le Nom et le Prénom de propriétaire sont obligatoire');
+          return false           
+        }else if (emailClient == ""){
+          alert('Le champ Email obligatoire');
+          return false           
+        }else if (telClient == ""){
+          alert('Le champ Tel obligatoire');
+          return false           
+        }
+        else
+        {
+          return true
+        }  
+    }
+
+// Fonction ajouter un compteur :
+   
+  function ajouterCompteur(){
+
+    if( this.validerChamps() ) {
+      var refCompteur = document.getElementById('refCompteur').value;
+      var typeCompteur = document.getElementById('typeCompteur').value;
+      var emplacement = document.getElementById('emplacement').value;
+      var nameClient = document.getElementById('nameClient').value;
+      var emailClient = document.getElementById('emailClient').value;
+      var telClient = document.getElementById('telClient').value;
+    
+      firebase.database().ref('/compteurs/'+refCompteur).set({
+        "refCompteur": refCompteur,
+        "typeCompteur": typeCompteur,
+        "emplacement": emplacement,
+        "consommation":""
+      })
+
+      firebase.database().ref('/compteurs/'+refCompteur+'/client').set({
+        "nomPrenom": nameClient,
+        "mail": emailClient,
+        "tel": telClient,
+      })
+
+      firebase.database().ref('/compteurs/'+refCompteur+'/index').set({
+        "valeur":"",
+        "date":"",
+      })
+
+      firebase.database().ref('/compteurs/'+refCompteur+'/positionGeo').set({
+        "latitude":"",
+        "longitude":"",
+      })
+    
+      firebase.database().ref('/compteurs/'+refCompteur+'/remarque').set({
+        "date":"",
+        "releverPar":"Ajouté par l'administration",
+        "valeur":"Nouveau compteur",
+      })
+      .then( () => {
+        alert(' Compteur ajouté avec succés.');
+          })
+      .catch ((error) => {
+        alert('Error');
+      });
+    }
+  }
+  
+</script>
+
+</body>
+</html>
+ 
+
+
+
+
+
+
+
+

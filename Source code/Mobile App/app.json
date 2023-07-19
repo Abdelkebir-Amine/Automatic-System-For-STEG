@@ -1,0 +1,22 @@
+
+{
+  "expo": {
+   "name": "STEG App",
+   "icon": "./src/assets/images/STEG.png",
+   "version": "1.0.0",
+   "slug": "App_Steg",
+   "ios": {
+     "bundleIdentifier": "com.stegApp.stegAppak",
+     "buildNumber": "1.0.0"
+   },
+   "android": {
+     "package": "com.stegApp.stegAppak",
+     "versionCode": 1
+   }
+  },
+  "android": {
+  "package": "com.stegApp.stegAppak",
+  "permissions": [ "CAMERA","FLASHLIGHT" ],
+  "versionCode": 8
+  }
+}

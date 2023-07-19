@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/png" href="images/icons/home.ico"/>
+  <title> détails  réclamation </title>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+<!----------------------------------- Connexion au Firebase  ----------------------------------->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+</head>
+
+<body id="page-top">
+
+<!------------------------------------ Partie Tableau de bord ---------------------------------------->
+
+  <nav  style="background-color: rgba(0,97,166,1); height: 45px; opacity: 0.3; width: 1117px; margin-left: 225px;">
+  </nav> 
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav" style="background-color: rgba(0,97,166,1); height: 950px; margin-top: -45px;">
+        <h5 style="margin-left: 7.5px; margin-top: 15px; margin-left: 21px;color: #ffffff;"> Administration STEG </h5> 
+        <a href="dashboard.html">
+            <img src="images/STEG.png" width="140px" height="140px" style="margin-top: 10px; margin-left: 42px;">
+        </a> 
+    
+      <li class="nav-item" style="margin-top: 35px;">
+        <a class="nav-link" href="dashboard.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Liste des compteurs</span>
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="consulter_consommation.html" >	
+          <span> Consulter les consommations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="consulter_reclamation.html">
+          <span> Consulter les réclamations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="gerer_releveurs.html">
+          <span> Gérer les releveurs </span> 
+        </a> 
+      </li> 
+    </ul>
+	
+<!---------------------------------- Partie affichage détails de réclamation ----------------------------------->
+
+    <div id="content-wrapper">
+        
+        <br>
+        <center><h1> Détails de réclamation </h1></center>
+        <br> <br>
+        
+            <form class="form-horizontal">
+            <fieldset>
+             
+                <div class="form-group" style="margin-left: 100px;">
+                  <h6> Réf compteur : </h6>  
+                    <div>
+                        <h6 style="margin-top: -25px;margin-left: 115px;" id="refDeCompteur"> 
+                           
+                        </h6>   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Type : </h6>  
+                    <div class="col-md-4">
+                    <h6 style="margin-top: -25px;margin-left: 40px;width: 600px;" id="typeDeReclamation">
+                        
+                    </h6>  
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Date de lancement : </h6>  
+                    <div class="col-md-4">
+                    <h6 style="margin-top: -25px;margin-left: 140px;" id="dateLancement">
+                        
+                    </h6>  
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                  <h6> Lancé par : </h6>  
+                  <div class="col-md-4">
+                  <h6 style="margin-top: -25px;margin-left: 75px;width: 600px;" id="releveurAjouter">
+                       
+                  </h6>  
+                  </div>
+              </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Remarque : </h6>  
+                    <div class="col-md-4">
+                    <h6 style="margin-top: -25px;margin-left: 80px;width: 600px;" id="remarque">
+                         
+                    </h6>  
+                    </div>
+                </div>
+
+                <div>
+                    <img id="image" src="images/compteur.jpg" width="500px" height="500px" style="margin-left: 320px; margin-top: 20px;">
+                </div>
+
+            </fieldset>
+            </form>
+
+<!---------------------------------- Partie JavaScript -------------------------------------->
+<script>
+
+  // Partie SELECT de données de réclamation sélectionné :
+  
+    // key de réclamation selectionné dans la page précédente (list des réclamations)
+    var key = sessionStorage.getItem("key");
+
+    // Les détails de réclamation :  
+    var refDeCompteur = document.getElementById('refDeCompteur');
+    var typeDeReclamation = document.getElementById('typeDeReclamation');
+    var dateLancement = document.getElementById('dateLancement');
+    var remarque = document.getElementById('remarque');
+    var releveurAjouter = document.getElementById('releveurAjouter');
+    var image = document.getElementById('image');
+
+  
+    var databaseRef = firebase.database().ref('reclamations/'+key);
+    databaseRef.on('value', function(datasnapshot){
+      refDeCompteur.innerText= datasnapshot.val().RefCompteur;
+      typeDeReclamation.innerText= datasnapshot.val().Type;
+      dateLancement.innerText= datasnapshot.val().Date;
+      remarque.innerText= datasnapshot.val().Text;
+      releveurAjouter.innerText= datasnapshot.val().AjoutParReleveur;
+      image.innerText= datasnapshot.val().Image;
+    })
+
+  </script> 
+  
+        
+        <!--  Footer -->
+        <footer class="sticky-footer" style="height: 45px;">
+            <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span style="font-size: 18px; color: black;"> Société de l'Electricité et du Gaz </span>
+            </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+</body>
+</html>
+ 
+
+
+
+
+
+
+
+

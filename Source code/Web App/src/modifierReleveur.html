@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/png" href="images/icons/home.ico"/>
+  <title> Modifier releveur </title>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+<!----------------------------------- Connexion au Firebase  ----------------------------------->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+
+</head>
+
+<body id="page-top">
+
+<!------------------------------------ Partie Tableau de bord ---------------------------------------->
+
+  <nav  style="background-color: rgba(0,97,166,1); height: 45px; opacity: 0.3; width: 1117px; margin-left: 225px;">
+  </nav> 
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav" style="background-color: rgba(0,97,166,1); height: 1065px; margin-top: -45px;">
+        <h5 style="margin-left: 7.5px; margin-top: 15px; margin-left: 21px;color: #ffffff;"> Administration STEG </h5> 
+        <a href="dashboard.html">
+            <img src="images/STEG.png" width="140px" height="140px" style="margin-top: 10px; margin-left: 42px;">
+        </a> 
+    
+      <li class="nav-item" style="margin-top: 35px;">
+        <a class="nav-link" href="dashboard.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Liste des compteurs</span>
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="consulter_consommation.html" >	
+          <span> Consulter les consommations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="consulter_reclamation.html">
+          <span> Consulter les réclamations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="gerer_releveurs.html">
+          <span> Gérer les releveurs </span> 
+        </a> 
+      </li> 
+    </ul>
+	
+<!---------------------------------- Partie modifier releveur -------------------------------------->
+
+    <div id="content-wrapper">
+      <br>
+      <center><h2> Les informations de releveur </h2></center>
+      <br>
+        <center>
+          <div >
+            <table border="2" style="width: 650px; height: 80px;">
+              <tr>
+                <th><center>CIN</center></th>
+                <th><center>Nom-Prénom</center></th>
+                <th><center>Email</center></th>
+                <th><center>Tel</center></th>
+              </tr>
+              <tr>
+                <td>  <center> <h7 id="CIN"></h7> </center> </h7> </td>
+                <td>  <center> <h7 id="nom_prenom"></h7> </center> </h7> </td>
+                <td>  <center> <h7 id="mail"></h7> </center> </h7> </td>
+                <td>  <center> <h7 id="tel"></h7> </center> </h7> </td>
+              </tr>
+            </table>
+          </div>
+        </center>
+          <br>
+          <center><h2> -------------------------------------------------------------------------- </h2></center>
+          <br>
+        <center><h1> Modification de releveur </h1></center>
+        <br> <br>
+        
+            <form class="form-horizontal">
+            <fieldset>
+                <div style="margin-left: 300px; margin-bottom: 30px;">
+                    <img src="images/user.png" width="150px" height="150px" style="border-radius: 50%;">
+                </div>
+             
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> CIN : </h6>  
+                    <div class="col-md-4">
+                        <input id="idReleveur" name="idReleveur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Nom : </h6>  
+                    <div class="col-md-4">
+                        <input id="nomReleveur" name="nomReleveur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Prénom : </h6>  
+                    <div class="col-md-4">
+                        <input id="prenomReleveur" name="prenomReleveur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Email : </h6>  
+                    <div class="col-md-4">
+                        <input id="emailReleveur" name="emailReleveur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Tel : </h6>  
+                    <div class="col-md-4">
+                        <input  id="telReleveur" name="telReleveur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-left: 300px;">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                    <button onclick="modifier();" type="button" class="btn btn-primary" >Modifier</button>
+                </div>
+                </div>
+            </fieldset>
+            </form>
+
+<!---------------------------------- Partie JavaScript -------------------------------------->
+<script>
+
+  // Partie SELECT de données de releveur sélectionné :
+  
+    // key de releveur selectionné dans la page précédente (list des releveurs)
+    var key = sessionStorage.getItem("key");
+    // appel des variables du tableau de données de compteur  
+    var CIN = document.getElementById('CIN');
+    var nom_prenom = document.getElementById('nom_prenom');
+    var mail = document.getElementById('mail');
+    var tel = document.getElementById('tel');
+  
+    var databaseRef = firebase.database().ref('releveurs/'+key);
+    databaseRef.on('value', function(datasnapshot){
+      CIN.innerText= datasnapshot.val().CIN;
+      nom_prenom.innerText= datasnapshot.val().nom +' '+datasnapshot.val().prenom;
+      mail.innerText= datasnapshot.val().email;
+      tel.innerText= datasnapshot.val().tel;
+      console.log(tel.value)
+    })
+
+  // Fonction controle des saisies :
+
+  validerChamps = () => {
+      var idReleveur = document.getElementById('idReleveur').value;
+      var nomReleveur = document.getElementById('nomReleveur').value;
+      var prenomReleveur = document.getElementById('prenomReleveur').value;
+      var emailReleveur = document.getElementById('emailReleveur').value;
+      var telReleveur = document.getElementById('telReleveur').value;
+
+        if (idReleveur == "") {
+          alert(' Le champ CIN obligatoire');
+          return false 
+        }else if (idReleveur.length < 8 || idReleveur.length > 8  ){
+          alert(' le N° CIN doit comporte exactement 8 chiffres');
+          return false           
+        }
+        else if (nomReleveur == ""){
+          alert('Le champ Nom obligatoire');
+          return false           
+        }else if (prenomReleveur == ""){
+          alert('Le champ Prénom obligatoire');
+          return false           
+        }else if (emailReleveur == ""){
+          alert('Le champ E-mail obligatoire');
+          return false           
+        }else if (telReleveur == ""){
+          alert('Le champ Tel obligatoire');
+          return false           
+        }
+        else
+        {
+          return true
+        }  
+    }
+
+  // Fonction de modification de releveur :
+    function modifier(){
+      if( this.validerChamps() ) {
+        var idReleveur = document.getElementById('idReleveur').value;
+        var nomReleveur = document.getElementById('nomReleveur').value;
+        var prenomReleveur = document.getElementById('prenomReleveur').value;
+        var emailReleveur = document.getElementById('emailReleveur').value;
+        var telReleveur = document.getElementById('telReleveur').value;
+  
+        firebase.database().ref('releveurs/'+key).update({
+        CIN: idReleveur,  
+        nom: nomReleveur,
+        prenom: prenomReleveur,
+        email: emailReleveur,
+        tel: telReleveur,
+        })
+        .then( () => {
+          alert('Releveur modifié avec succés');
+          })
+          .catch ((error) => {
+            alert('Error');
+          });   
+      }
+  };
+
+  </script> 
+        
+        <br> <br>
+
+        <!--  Footer -->
+        <footer class="sticky-footer" style="height: 45px; ">
+            <div class="container my-auto">
+            <div class="copyright text-center my-auto" >
+                <span style="font-size: 18px; color: black;">  </span>
+            </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>
+ 
+
+
+
+
+
+
+
+

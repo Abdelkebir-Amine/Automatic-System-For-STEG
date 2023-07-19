@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/png" href="images/icons/home.ico"/>
+  <title> Accueil </title>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+<!----------------------------------- Connexion au Firebase  ----------------------------------->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+</head>
+
+<body id="page-top">
+
+<!------------------------------------ Partie Tableau de bord ------------------------------------------>
+
+
+<nav  style="background-color: rgba(0,97,166,1); height: 45px; opacity: 0.3; width: 1117px; margin-left: 225px;">
+</nav> 
+
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <ul class="sidebar navbar-nav" style="background-color: rgba(0,97,166,1); height: 750px; margin-top: -45px;">
+    <h5 style="margin-left: 7.5px; margin-top: 15px; margin-left: 21px; color: #ffffff;" > Administration STEG </h5>
+      <a href="dashboard.html">
+        <img src="images/STEG.png" width="140px" height="140px" style="margin-top: 10px; margin-left: 42px;">
+      </a>  
+  
+    <li class="nav-item active" style="margin-top: 35px;">
+      <a class="nav-link" href="dashboard.html">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Liste des compteurs</span>
+      </a>
+    </li>
+   
+    <li class="nav-item">
+      <a class="nav-link" href="consulter_consommation.html" >	
+        <span> Consulter les consommations </span> 
+      </a> 
+    </li>
+  
+    <li class="nav-item">
+      <a class="nav-link" href="consulter_reclamation.html">
+        <span> Consulter les réclamations </span> 
+      </a> 
+    </li>
+  
+    <li class="nav-item">
+      <a class="nav-link" href="gerer_releveurs.html">
+        <span> Gérer les releveurs </span> 
+      </a> 
+    </li> 
+    <br><br><br><br>
+    <li class="nav-item">
+      <button onclick="deconnecter()" style="color: #ffffff; margin-left: 40px; background-color: #e32526;">
+        Se déconnecter
+      </button>
+    </li>
+  
+  </ul>
+
+<!----------------------------------- Partie affichage des compteurs ---------------------------------->
+
+<div id="content-wrapper" >
+	
+	<br>
+<center><h1> la liste des compteurs </h1></center>
+<br><br><br>
+
+<!-- <input type="search" placeholder="# Réf compteur..." style="width: 350px; height: 35px; margin-left:370px; border-radius: 10px; border-color:rgba(0,97,166,1);"> -->
+
+  <h6  style="margin-top: -40px; margin-left: 930px;">Ajouter un compteur</h6>
+  <a href="ajouterCompteur.html">
+    <img src="icons/add compteur.png" width="35px" height="35px" style="margin-top: -1px; margin-left: 985px;">
+  </a> 
+
+<br><br>
+ 
+<table class="table table-striped" id="compteurs_list">
+
+  <tr style="font-weight: bold;">
+    <td>Réf compteur</td>
+    <td>Client</td>
+    <td>Emplacement</td>
+    <td>Consulter|Modifier</td>
+    <td>Supprimer</td>
+  </tr>
+
+</table>
+
+<!--************************************* Partie JavaScript ************************************-->
+
+<script>
+
+// Partie fetching from FireBase :
+
+    var compteurs = document.getElementById('compteurs_list');
+    var databaseRef = firebase.database().ref('compteurs/');
+    var rowIndex = 1;
+    
+    databaseRef.once('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+    var childKey = childSnapshot.key;
+    var childData = childSnapshot.val();
+    
+    var row = compteurs.insertRow(rowIndex);
+    var refCompteur = row.insertCell(0);
+    var client = row.insertCell(1);
+    var emplacement = row.insertCell(2);
+    var cellButtons = row.insertCell(3).outerHTML=
+        "<tr id='row"+rowIndex+"'><td ><input type='button' value='Consulter|Modifier' onclick=modifier('"+childKey+"') ></td></tr>";
+    var cellButtons = row.insertCell(4).outerHTML=
+        "<tr id='row"+rowIndex+"'><td><input type='button' value='Supprimer' onclick=supprimer('"+childKey+"') style='color: red;' ></td></tr>";
+
+    refCompteur.appendChild(document.createTextNode("# "+childKey));
+    client.appendChild(document.createTextNode(childData.client.nomPrenom));
+    emplacement.appendChild(document.createTextNode(childData.emplacement));
+    
+    rowIndex = rowIndex + 1;
+      });
+    });
+
+//Fonction supprimer compteur :
+
+    function supprimer(childKey){
+      firebase.database().ref('compteurs/'+childKey).set(null);
+      alert('Compteur supprimé avec succés !');
+    }
+
+//Fonction modifier compteur :
+
+    function modifier(childKey){  
+      var ref =childKey;
+      sessionStorage.setItem("ref", ref);
+      window.location="consulterCompteur.html";  
+    }
+    
+//Fonction déconnexion :
+
+    function deconnecter() {
+      window.location="index.html";
+      firebase.auth().signOut();  
+    }
+
+</script>
+
+<br> <br> 
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer" style="height: 45px; ">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto" >
+            <span style="font-size: 18px; color: black;"> Société de l'Electricité et du Gaz </span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
+ 
+
+
+
+
+

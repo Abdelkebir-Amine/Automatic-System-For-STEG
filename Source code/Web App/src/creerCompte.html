@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Créer un compte</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/login.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+
+<!----------------------------- Connexion au Firebase  ----------------------------------->
+
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+	<script>
+	// Your web app's Firebase configuration
+	var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	firebase.analytics();
+	</script>
+
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100" style="height: 550px;">
+				<div class="login100-pic js-tilt" data-tilt >
+					<img src="images/STEG.png" alt="IMG">
+				</div>
+				<div>
+					<span class="login100-form-title2">
+						Administration STEG
+					</span>
+				</div>
+				<form class="login100-form validate-form" style="margin-top: -60px;">
+					<span class="login100-form-title" style="width: 500px; margin-left: -100px;">
+						Création de compte administrateur
+					</span>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" id="Nom_Prenom" placeholder="Nom-Prénom">
+						<span class="focus-input101"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" id="email" placeholder="Email">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" id="password" placeholder="Mot de passe">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="text-center p-t-12" style="background-color:rgba(0,97,166,1); margin-top:50px; border-radius: 25px;height: 52px;">
+							<a onclick="enregistrer()" style="color: #ffffff;font-size:18px;">
+								Enregistrer
+							</a>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!---------------------------------- Partie JavaScript -------------------------------------->
+
+    <script>
+
+		//Fonction Créer un compta ADMIN :
+
+        function enregistrer() {
+			const auth = firebase.auth();
+			
+			var Nom_Prenom = document.getElementById('Nom_Prenom').value;
+			var email = document.getElementById('email').value; 
+			var password = document.getElementById('password').value;
+			
+			auth.createUserWithEmailAndPassword(email,password).then(user => {
+				let id = user.user.uid
+				firebase.database().ref('/admin/'+id).set({
+					"name": Nom_Prenom,
+					"photo":"https://b7.pngbarn.com/png/9/763/computer-icons-login-user-system-administrator-admin-png-clip-art-thumbnail.png"
+					}) 
+				// Message de retour :
+				alert('Un nouvel administrateur ajouté');
+			})
+        }
+
+	</script>
+	
+</body>
+</html>

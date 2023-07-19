@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/png" href="images/icons/home.ico"/>
+  <title> Liste des réclamations </title>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+  <!----------------------------------- Connexion au Firebase  ----------------------------------->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+</head>
+
+<body id="page-top">
+
+<!-------------------------------------- Partie Tableau de bord ------------------------------------->
+
+  <nav  style="background-color: rgba(0,97,166,1); height: 45px; opacity: 0.3; width: 1117px; margin-left: 225px;">
+  </nav> 
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav" style="background-color: rgba(0,97,166,1); height: 750px; margin-top: -45px;">
+        <h5 style="margin-left: 7.5px; margin-top: 15px; margin-left: 21px;color: #ffffff;"> Administration STEG </h5> 
+        <a href="dashboard.html">
+            <img src="images/STEG.png" width="140px" height="140px" style="margin-top: 10px; margin-left: 42px;">
+        </a> 
+    
+      <li class="nav-item" style="margin-top: 35px;">
+        <a class="nav-link" href="dashboard.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Liste des compteurs</span>
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="consulter_consommation.html" >	
+          <span> Consulter les consommations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item active">
+        <a class="nav-link" href="consulter_reclamation.html">
+          <span> Consulter les réclamations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="gerer_releveurs.html">
+          <span> Gérer les releveurs </span> 
+        </a> 
+      </li> 
+    </ul>
+	
+<!-------------------------------- Partie affichage des réclamations --------------------------------------->
+
+  <div id="content-wrapper">
+    <br>
+    <center><h1> Liste des réclamations </h1></center>
+    <br><br><br><br>
+
+      <table class="table table-striped" id="reclamations_list">
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Réf compteur</th>
+            <th scope="col">Date de lancement</th>
+            <th scope="col">Détails</th>
+            <th scope="col">Effacer</th>
+          </tr>
+      </table>
+
+      <script>
+        // Partie fetching from FireBase :
+        
+          var reclamations = document.getElementById('reclamations_list');
+          var databaseRef = firebase.database().ref('reclamations/');
+          var rowIndex = 1;
+          
+          databaseRef.once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+          var childKey = childSnapshot.key;
+          var childData = childSnapshot.val();
+          
+          var row = reclamations.insertRow(rowIndex);
+          var type = row.insertCell(0);
+          var refCompteur = row.insertCell(1);
+          var date = row.insertCell(2);
+          var cellButtons = row.insertCell(3).outerHTML=
+            "<tr id='row"+rowIndex+"'><td ><input type='button' value='Détails' onclick=consulter('"+childKey+"') ></td></tr>";
+          var cellButtons = row.insertCell(4).outerHTML=
+            "<tr id='row"+rowIndex+"'><td><input type='button' value='Supprimer' onclick=supprimer('"+childKey+"') style='color: red;' ></td></tr>";
+        
+          //numReclamation.appendChild(document.createTextNode(childKey));
+          refCompteur.appendChild(document.createTextNode('# '+childData.RefCompteur));
+          type.appendChild(document.createTextNode(childData.Type));
+          date.appendChild(document.createTextNode(childData.Date));
+          
+          rowIndex = rowIndex + 1;
+            });
+          });
+
+          //Fonction supprimer compteur :
+
+            function supprimer(childKey){
+              firebase.database().ref('reclamations/'+childKey).set(null);
+              alert('Réclamation supprimé avec succés !');
+            }
+
+          //Fonction modifier compteur :
+
+            function consulter(childKey){  
+              var key =childKey;
+              sessionStorage.setItem("key", key);
+              window.location="detailsReclamation.html";  
+            }
+        
+        </script>
+      
+          <br> <br> 
+          <!--  Footer -->
+          <footer class="sticky-footer" style="height: 45px; ">
+            <div class="container my-auto">
+              <div class="copyright text-center my-auto" >
+                <span style="font-size: 18px; color: black;"> Société de l'Electricité et du Gaz </span>
+              </div>
+            </div>
+          </footer>
+  </div>
+</div>
+
+</body>
+</html>
+ 
+
+
+
+
+
+
+
+

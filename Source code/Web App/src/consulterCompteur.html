@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/png" href="images/icons/home.ico"/>
+  <title> Consulter compteur </title>
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+<!----------------------------------- Connexion au Firebase  ----------------------------------->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "****",
+      authDomain: "****",
+      databaseURL: "****",
+      projectId: "steg-e21f5",
+      storageBucket: "****",
+      messagingSenderId: "****",
+      appId: "****",
+      measurementId: "****"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+</head>
+
+<body id="page-top">
+
+<!------------------------------------ Partie Tableau de bord ---------------------------------------->
+
+  <nav  style="background-color: rgba(0,97,166,1); height: 45px; opacity: 0.3; width: 1117px; margin-left: 225px;">
+  </nav> 
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav" style="background-color: rgba(0,97,166,1); height: 950px; margin-top: -45px;">
+        <h5 style="margin-left: 7.5px; margin-top: 15px; margin-left: 21px;color: #ffffff;"> Administration STEG </h5> 
+        <a href="dashboard.html">
+            <img src="images/STEG.png" width="140px" height="140px" style="margin-top: 10px; margin-left: 42px;">
+        </a> 
+    
+      <li class="nav-item" style="margin-top: 35px;">
+        <a class="nav-link" href="dashboard.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Liste des compteurs</span>
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="consulter_consommation.html" >	
+          <span> Consulter les consommations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="consulter_reclamation.html">
+          <span> Consulter les réclamations </span> 
+        </a> 
+      </li>
+	  
+	    <li class="nav-item">
+        <a class="nav-link" href="gerer_releveurs.html">
+          <span> Gérer les releveurs </span> 
+        </a> 
+      </li> 
+    </ul>
+	
+<!---------------------------------- Partie modifier compteur -------------------------------------->
+
+    <div id="content-wrapper">
+        
+        <br>
+        <center><h2> Les informations de compteur </h2></center>
+        <br>
+          <center>
+            <div >
+              <table border="2" style="width: 1000px; height: 80px;">
+                <tr>
+                  <th> <center> Réf compteur </center></th>
+                  <th><center> Type </center></th>
+                  <th><center> Emplacement </center></th>
+                  <th><center> Nom propriétaire </center></th>
+                  <th><center> Email propriétaire </center></th>
+                  <th><center> Tel propriétaire </center></th>
+                </tr>
+                <tr>
+                  <td> <center> <h7 id="reference"> </h7> </center> </td>
+                  <td><center> <h7 id="type"> </h7> </center> </td>
+                  <td> <center> <h7 id="empl"> </h7> </center> </td>
+                  <td> <center> <h7 id="nameCli"> </h7> </center> </td>
+                  <td> <center> <h7 id="emailCli"></h7> </center> </h7> </td>
+                  <td> <center> <h7 id="telCli"> </h7> </center> </td>
+                </tr>
+              </table>
+            </div>
+          </center>
+            <br>
+            <center><h2> -------------------------------------------------------------------------- </h2></center>
+            <br>
+            <center><h2> Modification de compteur </h2></center>
+            <br><br>
+            <form class="form-horizontal">
+            <fieldset>
+               
+                <div class="form-group" style="margin-left: 100px;">
+                  <h6> Réf compteur : </h6> 
+                  <div class="col-md-4">
+                    <input id="refCompteur" name="refCompteur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">                       
+                  </div>
+                </div>
+               
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Type compteur : </h6>  
+                    <div class="col-md-4">
+                      <input id="typeCompteur" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+                  
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Emplacement : </h6>  
+                    <div class="col-md-4">
+                    <input id="emplacement" name="emplacement" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 110px;">   
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left: 100px;">
+                    <h6> Propriétaire </h6>  
+                           
+                    <label class="col-md-4 control-label" for="product_name" style="margin-left: 15px; margin-top: 10px;"> Nom & Prénom : </label>  
+                    <div class="col-md-4">
+                    <input id="nameClient" name="nameClient" class="form-control input-md" type="text" style="margin-top: -37px;margin-left: 138px;">   
+                    </div>
+                           
+                    <label class="col-md-4 control-label" for="product_name" style="margin-left: 35px;margin-top: 15px;"> Email : </label>  
+                    <div class="col-md-4">
+                    <input id="emailClient" name="emailClient" class="form-control input-md" type="text" style="margin-top: -35px;margin-left: 138px;">   
+                    </div>
+                          
+                    <label class="col-md-4 control-label" for="product_name" style="margin-left: 40px; margin-top: 15px;"> Tel : </label>     
+                    <div class="col-md-4">
+                    <input id="telClient" name="telClient" class="form-control input-md" type="text" style="margin-top: -35px;margin-left: 138px;">   
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-left: 300px;">
+                  <label class="col-md-4 control-label" for="singlebutton"></label>
+                  <div class="col-md-4">
+                      <button onclick="modifier();" type="button" class="btn btn-primary" >Modifier</button>
+                  </div>
+                </div>
+
+            </fieldset>
+            </form>
+
+<!---------------------------------- Partie JavaScript -------------------------------------->
+<script>
+
+// Partie SELECT de données du compteur sélectionné :
+
+  // ref c'est la réfernce de compteur selectionné dans la page précédente (list des compteurs)
+  var ref = sessionStorage.getItem("ref");
+  // appel des variables du tableau de données de compteur  
+  var reference = document.getElementById('reference');
+  var type = document.getElementById('type');
+  var empl = document.getElementById('empl');
+  var nameCli = document.getElementById('nameCli');
+  var emailCli = document.getElementById('emailCli');
+  var telCli = document.getElementById('telCli');
+
+  var databaseRef = firebase.database().ref('compteurs/'+ref);
+  databaseRef.on('value', function(datasnapshot){
+    reference.innerText= datasnapshot.val().refCompteur;
+    type.innerText= datasnapshot.val().typeCompteur;
+    empl.innerText= datasnapshot.val().emplacement;
+    nameCli.innerText= datasnapshot.val().client.nomPrenom;
+    emailCli.innerText= datasnapshot.val().client.mail;
+    telCli.innerText= datasnapshot.val().client.tel;
+  })
+
+// Fonction controle des saisies :
+
+    validerChamps = () => {
+      
+      var refCompteur = document.getElementById('refCompteur').value;
+      var typeCompteur = document.getElementById('typeCompteur').value;
+      var emplacement = document.getElementById('emplacement').value;
+      var nameClient = document.getElementById('nameClient').value;
+      var emailClient = document.getElementById('emailClient').value;
+      var telClient = document.getElementById('telClient').value;
+
+        if (refCompteur == "") {
+          alert(' Le champ Réf compteur obligatoire');
+          return false 
+        }else if (refCompteur.length < 12 || refCompteur.length > 12  ){
+          alert(' la référence de compteur doit comporte exactement 12 chiffres');
+          return false           
+        }
+        else if (typeCompteur == ""){
+          alert('Le champ Type compteur obligatoire');
+          return false           
+        }else if (emplacement == ""){
+          alert('Le champ Emplacement obligatoire');
+          return false           
+        }else if (nameClient == ""){
+          alert('Le Nom et le Prénom de propriétaire sont obligatoire');
+          return false           
+        }else if (emailClient == ""){
+          alert('Le champ Email obligatoire');
+          return false           
+        }else if (telClient == ""){
+          alert('Le champ Tel obligatoire');
+          return false           
+        }
+        else
+        {
+          return true
+        }  
+    }
+
+// Fonction de modification de compteur :
+  function modifier(){
+
+    if( this.validerChamps() ) {
+      var refCompteur = document.getElementById('refCompteur').value;
+      var typeCompteur = document.getElementById('typeCompteur').value;
+      var emplacement = document.getElementById('emplacement').value;
+      var nameClient = document.getElementById('nameClient').value;
+      var emailClient = document.getElementById('emailClient').value;
+      var telClient = document.getElementById('telClient').value;
+
+        firebase.database().ref('compteurs/'+ref).update({
+        refCompteur: refCompteur,  
+        typeCompteur: typeCompteur,
+        emplacement: emplacement,
+        })
+      
+        firebase.database().ref('/compteurs/'+ref+'/client').update({
+          nomPrenom: nameClient,
+          mail: emailClient,
+          tel: telClient,
+        })
+        .then( () => {
+          alert('Compteur modifié avec succés');
+          })
+        .catch ((error) => {
+          alert('Error');
+        });    
+    }
+  }
+</script>           
+
+        <br> <br>
+
+        <!-- Footer -->
+        <footer class="sticky-footer" style="height: 45px; ">
+            <div class="container my-auto">
+            <div class="copyright text-center my-auto" >
+                <span style="font-size: 18px; color: black;"> Société de l'Electricité et du Gaz </span>
+            </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>
+ 
+
+
+
+
+
+
+
+
